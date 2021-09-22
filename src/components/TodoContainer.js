@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/state-in-constructor */
+/* eslint-disable no-param-reassign */
 
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,24 +10,36 @@ import InputTodo from './InputTodo';
 
 class TodoContainer extends React.Component {
   state = {
-    todos: [
-      {
-        id: uuidv4(),
-        title: 'Setup development environment',
-        completed: true,
-      },
-      {
-        id: uuidv4(),
-        title: 'Develop website and add content',
-        completed: true,
-      },
-      {
-        id: uuidv4(),
-        title: 'Deploy to live server',
-        completed: false,
-      },
-    ],
+    todos: [],
   };
+
+  // componentDidMount() {
+  //   fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+  //     .then((response) => response.json())
+  //     .then((data) => this.setState({ todos: data }));
+  // }
+
+  componentDidMount() {
+    const temp = localStorage.getItem('todos');
+    const loadedTodos = JSON.parse(temp);
+    if (loadedTodos) {
+      this.setState({
+        todos: loadedTodos,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { todos } = this.state;
+    if (prevState.todos !== todos) {
+      const temp = JSON.stringify(todos);
+      localStorage.setItem('todos', temp);
+    }
+  }
+
+  componentWillUnmount() {
+    console.log('Cleaning up...');
+  }
 
   handleChange = (id) => {
     this.setState((prevState) => ({
@@ -65,6 +78,18 @@ class TodoContainer extends React.Component {
     });
   };
 
+  setUpdate = (updatedTitle, id) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map((todo) => {
+        if (todo.id === id) {
+          todo.title = updatedTitle;
+        }
+        return todo;
+      }),
+    });
+  }
+
   render() {
     const { todos } = this.state;
     return (
@@ -76,6 +101,7 @@ class TodoContainer extends React.Component {
             todos={todos}
             handleChangeProps={this.handleChange}
             deleteTodoProps={this.delTodo}
+            setUpdate={this.setUpdate}
           />
         </div>
       </div>
