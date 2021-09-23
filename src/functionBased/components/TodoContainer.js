@@ -17,12 +17,10 @@ const TodoContainer = () => {
     // getting stored items
     const temp = localStorage.getItem('todos');
     const savedTodos = JSON.parse(temp);
-    console.log(savedTodos);
     return savedTodos || [];
   }
 
   const [todos, setTodos] = useState(getInitialTodos());
-  console.log(todos);
   useEffect(() => {
     // storing todos items
     const temp = JSON.stringify(todos);
@@ -67,7 +65,6 @@ const TodoContainer = () => {
       }),
     );
   };
-  console.log(todos);
   return (
     <>
       <Navbar />
@@ -77,7 +74,6 @@ const TodoContainer = () => {
             <div className="inner">
               <Header />
               <InputTodo addTodoProps={addTodoItem} />
-              {console.log(todos)}
               <TodosList
                 todos={todos}
                 handleChangeProps={handleChange}

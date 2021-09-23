@@ -13,12 +13,6 @@ class TodoContainer extends React.Component {
     todos: [],
   };
 
-  // componentDidMount() {
-  //   fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
-  //     .then((response) => response.json())
-  //     .then((data) => this.setState({ todos: data }));
-  // }
-
   componentDidMount() {
     const temp = localStorage.getItem('todos');
     const loadedTodos = JSON.parse(temp);
@@ -37,9 +31,9 @@ class TodoContainer extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log('Cleaning up...');
-  }
+  // componentWillUnmount() {
+  //   console.log('Cleaning up...');
+  // }
 
   handleChange = (id) => {
     this.setState((prevState) => ({

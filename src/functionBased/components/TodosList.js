@@ -12,7 +12,6 @@ const TodosList = (props) => {
   const { todos, handleChangeProps, deleteTodoProps, setUpdate } = props;
   return (
     <ul>
-      {console.log(todos)};
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
